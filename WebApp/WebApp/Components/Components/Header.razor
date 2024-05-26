@@ -1,0 +1,46 @@
+﻿<header>
+    <div class="container">
+        <a id="logo" href="/">
+            <img id="logo" src="/images/logos/logo-solid.svg" alt="Silicon logotype">
+        </a>
+        <div id="menu">
+            <nav>
+                <NavLink class="menu-link" href ="/" Match="NavLinkMatch.All">Overview</NavLink>
+                <NavLink class="menu-link" href="#features">Features</NavLink>
+                <AuthorizeView>
+                    <Authorized>
+                        <NavLink class="menu-link" href="/courses">Courses</NavLink>
+                    </Authorized>
+                </AuthorizeView>
+                <NavLink class="menu-link" href="/contact" >Contact</NavLink>
+            </nav>
+        </div>
+
+        <div class="btn-switch">
+            <span>Light</span>
+            <div class="switch">
+                <input type="checkbox" id="switch" role="switch">
+                <label for="switch" class="slider round"></label>
+            </div>
+            <span>Dark</span>
+        </div>
+
+        <div class="account-buttons">
+
+            <AuthorizeView>
+                <Authorized>
+                    <NavLink class="btn-theme" href="/account/details"><i class="fa-regular fa-user"></i><span>My Account</span></NavLink>
+                    <NavLink class="btn-gray" href="/signout"><i class="fa-regular fa-right-from-bracket"></i><span>Sign Out</span></NavLink>
+                </Authorized>
+                <NotAuthorized>
+                    <NavLink class="btn-gray" href="/signin"><i class="fa-regular fa-right-to-bracket"></i><span>Sign in</span></NavLink>
+                    <NavLink class="btn-theme" href="/signup"><i class="fa-regular fa-user"></i><span>Sign up</span></NavLink>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+
+    </div>
+</header>
+@code {
+
+}

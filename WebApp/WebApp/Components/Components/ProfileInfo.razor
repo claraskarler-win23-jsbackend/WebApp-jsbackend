@@ -1,0 +1,27 @@
+﻿@attribute [StreamRendering]
+
+@if(user == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="profile-info">
+        <img src="/images/profile-image.svg/@user.ProfileImage" alt="Profile Picture" />
+        <h5>@user.FirstName @user.LastName</h5>
+        <p>@user.Email</p>
+    </div>
+}
+
+
+@code {
+    private ApplicationUser? user = default!;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserManager.GetUserAsync(HttpContext.User) ?? null!;
+    }
+}
