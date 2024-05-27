@@ -38,9 +38,9 @@
                     <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Enter your password" />
 
                 </div>
-                <div id="form-remember" class="checkbox">
+                <div id="form-remember" class="checkbox form-floating mb-3">
                     <div class="checkbox-group">
-                        <InputCheckbox type="terms" @bind-Value="Input.RememberMe" autocomplete="rememberme"/>
+                        <InputCheckbox type="rememberme" @bind-Value="Input.RememberMe" autocomplete="rememberme"/>
                         <label>Remember Me</label>
                     </div>
                 </div>

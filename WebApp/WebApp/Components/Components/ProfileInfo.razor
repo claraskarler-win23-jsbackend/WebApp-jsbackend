@@ -1,6 +1,6 @@
 ﻿@attribute [StreamRendering]
 
-@if(user == null)
+@* @if(user == null)
 {
     <p>Loading...</p>
 }
@@ -24,4 +24,4 @@ else
     {
         user = await UserManager.GetUserAsync(HttpContext.User) ?? null!;
     }
-}
+} *@

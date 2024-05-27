@@ -5,20 +5,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    <script defer src="https://kit.fontawesome.com/41c8b474e2.js" crossorigin="anonymous"></script>
+    
     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="css/site.css" />
     @* <link rel="stylesheet" href="WebApp.styles.css" /> *@
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     @* HeadOutlet är till för att dynamiskt kunna lägga till saker till <head>, det går t.ex. att rendera en titel inuti komponenten och sedan infoga det*@
     <HeadOutlet />
+    <script defer src="https://kit.fontawesome.com/41c8b474e2.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     @* refererar till routes-files *@
     <Routes />
-@*     sköter frontend-biten *@
     <script src="_framework/blazor.web.js"></script>
 </body>
+
 
 </html>

@@ -10,29 +10,73 @@
 
 <h3>Profile</h3>
 
-<div class="row">
-    <div class="col-md-6">
-        <EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
-            <DataAnnotationsValidator />
-            <ValidationSummary class="text-danger" role="alert" />
-            <div class="form-floating mb-3">
-                <input type="text" value="@username" class="form-control" placeholder="Please choose your username." disabled />
-                <label for="username" class="form-label">Username</label>
+<section id="account-details">
+        <aside>
+        <div class="profile-info">
+            <div class="profile-image">
+                <img src="/images/uploads/profiles/avatar.jpg" alt="profile image" />
+
+                <form id="profileImageForm" enctype="multipart/form-data" method="post">
+                    <InputFile id="fileUploader" type="file" name="file" hidden />
+                    <label for="fileUploader" class="btn-gray btn-circle-sm"><i class="fa-regular fa-refresh"></i></label>
+                </form>
             </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
-                <label for="phone-number" class="form-label">Phone number</label>
-                <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
+            <div class="account-info">
+                <h5>@(firstname ?? "First Name") @(lastname ?? "Last Name")</h5>
+                <p>@(email ?? "email@example.com")</p>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </EditForm>
-    </div>
-</div>
+        </div>
+        <ManageNavMenu />
+        </aside>
+        <div class="details">
+            <section class="basic-info">
+            <EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
+                <DataAnnotationsValidator />
+                <ValidationSummary class="text-danger" role="alert" />
+                
+                <div class="content">
+                    <div class="form-floating mb-3 input-group" id="form-firstname">
+                        <InputText @bind-Value="Input.FirstName" class="form-control" placeholder="Please enter your first name." />
+                        <label for="first-name" class="form-label">First name</label>
+                        <ValidationMessage For="() => Input.FirstName" class="text-danger" />
+                    </div>
+                    <div class="form-floating mb-3 input-group" id="form-lastname">
+                        <InputText @bind-Value="Input.LastName" class="form-control" placeholder="Please enter your last name." />
+                        <label for="last-name" class="form-label">Last name</label>
+                        <ValidationMessage For="() => Input.LastName" class="text-danger" />
+                    </div>
+                    <div class="form-floating mb-3 input-group" id="form-email">
+                        <input type="text" @bind-value="Input.Email" class="form-control" placeholder="Please enter your email" />
+                        <label for="email" class="form-label">Email</label>
+                        <ValidationMessage For="() => Input.Email" class="text-danger" />
+                    </div>
+                    <div class="form-floating mb-3 input-group" id="form-phone">
+                        <InputText @bind-Value="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." />
+                        <label for="phone-number" class="form-label">Phone number</label>
+                        <ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
+                    </div>
+                    <div class="form-floating mb-3 input-group">
+                        <InputTextArea @bind-Value="Input.Biography" class="form-control" placeholder="Please enter your biography." style="height: 100px;" />
+                        <label for="biography" class="form-label">Bio</label>
+                        <ValidationMessage For="() => Input.Biography" class="text-danger" />
+                    </div>
+                    <div class="form-buttons">
+                        <button type="reset" class="btn-gray">Cancel</button>
+                        <button type="submit" class="btn-theme">Save Changes</button>
+                    </div>
+                </div>
+            </EditForm>
+        </section>
+        </div>
+</section>
 
 @code {
     private ApplicationUser user = default!;
-    private string? username;
+    private string? email;
     private string? phoneNumber;
+    private string? firstname;
+    private string? lastname;
+    private string? biography;
 
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
@@ -42,21 +86,77 @@
 
     protected override async Task OnInitializedAsync()
     {
-        user = await UserManager.GetUserAsync(HttpContext.User) ?? null!;
-        username = await UserManager.GetUserNameAsync(user);
+        user = await UserManager.GetUserAsync(HttpContext.User) ?? new ApplicationUser();
+        email = await UserManager.GetEmailAsync(user);
         phoneNumber = await UserManager.GetPhoneNumberAsync(user);
+        firstname = user.FirstName;
+        lastname = user.LastName;
+        biography = user.Biography;
 
+        Input.FirstName ??= firstname;
+        Input.LastName ??= lastname;
+        Input.Email ??= email;
         Input.PhoneNumber ??= phoneNumber;
+        Input.Biography ??= biography;
     }
 
     private async Task OnValidSubmitAsync()
     {
+        bool updated = false;
+
+        if (Input.FirstName != firstname)
+        {
+            if (Input.FirstName != null)
+            {
+                user.LastName = Input.FirstName;
+                updated = true;
+            }
+            updated = false;
+        }
+
+        if (Input.LastName != lastname)
+        {
+            if (Input.LastName != null)
+            {
+                user.LastName = Input.LastName;
+                updated = true;
+            }
+            updated = false;
+
+        }
+
+        if (Input.Email != email)
+        {
+            var setEmailResult = await UserManager.SetEmailAsync(user, Input.Email);
+            if (!setEmailResult.Succeeded)
+            {
+                return;
+            }
+            updated = true;
+        }
+
         if (Input.PhoneNumber != phoneNumber)
         {
             var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
             if (!setPhoneResult.Succeeded)
             {
+                return;
+            }
+            updated = true;
+        }
 
+        if (Input.Biography != biography)
+        {
+            user.Biography = Input.Biography;
+            updated = true;
+        }
+
+        if (updated)
+        {
+            var updateResult = await UserManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return;
             }
         }
 
@@ -65,8 +165,22 @@
 
     private sealed class InputModel
     {
+        
+        [Display(Name = "First name")]
+        public string? FirstName { get; set; }
+
+        [Display(Name = "Last name")]
+        public string? LastName { get; set; }
+
+        [Display(Name = "Email Address")]
+        public string? Email { get; set; }
+
         [Phone]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
+
+        [Display(Name = "Bio", Prompt = "Add a short bio...")]
+        [DataType(DataType.MultilineText)]
+        public string? Biography { get; set; }
     }
 }

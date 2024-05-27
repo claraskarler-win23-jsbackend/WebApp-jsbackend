@@ -1,18 +1,31 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.Logging
 @using WebApp.Data
 
 @inject SignInManager<ApplicationUser> SignInManager
+@inject NavigationManager Navigation
+@inject ILogger<ManageNavMenu> Logger
 
 @rendermode InteractiveAuto
 
 <nav>
     <NavLink href="/account/details" class="btn-theme-s" Match="NavLinkMatch.All"><i class="fa-regular fa-cog"></i>Account Details</NavLink>
-    <NavLink class="btn-transparent" @onclick="HandleSignOut"><i class="fa-regular fa-arrow-right-from-bracket"></i>Sign out</NavLink>
+    <button class="btn-transparent" @onclick="HandleSignOut"><i class="fa-regular fa-arrow-right-from-bracket"></i>Sign out</button>
 </nav>
 
 @code {
     private async Task HandleSignOut()
     {
-        await SignInManager.SignOutAsync();
+        try
+        {
+            Logger.LogInformation("Sign-out initiated.");
+            await SignInManager.SignOutAsync();
+            Logger.LogInformation("Sign-out successful.");
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error during sign-out.");
+        }
     }
 }
