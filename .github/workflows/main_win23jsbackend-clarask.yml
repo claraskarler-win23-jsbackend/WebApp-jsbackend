@@ -54,4 +54,4 @@ jobs:
           app-name: 'win23jsbackend-clarask'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_69DD40F60FD54ED788C4B4E80D8478AB }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_90FE655D5AD0433AB70CE567A5DE18BC }}
