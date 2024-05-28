@@ -1,4 +1,4 @@
-#account-details {
+#account {
     display: grid;
     grid-template-columns: 2fr 5fr;
     gap: 150px;
@@ -18,6 +18,16 @@
 
                 p {
                     @include text-m
+                }
+            }
+
+            .profile-image {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                #profileImageForm {
+                    padding: 10px 100px;
                 }
             }
         }

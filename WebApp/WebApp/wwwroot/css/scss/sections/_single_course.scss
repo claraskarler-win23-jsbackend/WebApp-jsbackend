@@ -1,0 +1,143 @@
+
+    #single-course {
+        .course-showcase {
+            background-color: #263454;
+            position: relative;
+            margin-bottom: 60px;
+            z-index: 1;
+            .container {
+                
+                .course-tags {
+                    display: flex;
+                    gap: 10px;
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    .bestseller {
+                        background: $success;
+                        color: #ffff;
+                        padding: .2rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 5px;
+                    }
+                    .digital {
+                        background: $gray-200;
+                        color: $gray-900;
+                        padding: .2rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 5px;
+                        left: 10px;
+                        top: 10px;
+                    }
+                }
+                h1 {
+                    color: $white;
+                    margin-bottom: 40px;
+                }
+                h3 {
+                    color: $white;
+                }
+                p {
+                    color: $gray-600;
+                }
+                .course-statistics {
+                    display: flex;
+                    
+                    p {
+                        padding-left: 20px;
+                        padding-right: 20px;
+                        border-left: 1px solid;
+                    }
+                    i {
+                        padding-right: 10px;
+                    }
+                    .star-rating {
+                        p {
+                            border-left: none;
+                        }
+                    }
+                }
+    
+                .author{
+                    display: flex;
+                    .image {
+                        background-color: aquamarine;
+                        width: 50px;
+                        height: 50px;
+                    }
+                }
+            }
+        }
+        .course-description {
+            .container {
+                display: flex;
+                justify-content: space-between;
+                padding-top: 50px;
+
+                .info-texts {
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 20px;
+
+                    .what-learn {
+
+                        .checklist {
+                            i {
+                                color: $theme;
+                                font-size: 20px;
+                                margin-right: 10px;
+                            }
+                        }
+                    }
+                }
+
+                .include-join {
+                    box-shadow: 0 3px 10px #0000000f, 0 4px 5px #0000000c;
+                    border-radius: 1.1rem;
+                    overflow: hidden;
+                    border: 1px solid var(--color-gray-300);
+                    width: 430px;
+                    padding: 50px 50px 35px 50px;
+                    margin-top: 50px;
+                    color: var(--color-gray-700);
+                    .pricing {
+                        display: flex;
+                        gap: 15px;
+                        padding-top: 30px;
+                        margin-bottom: 5px;
+                        .discount-price {
+                            font-size: 32px;
+                            color: var(--color-gray-900);
+                            font-weight: 800;
+                        }
+                        .original-price {
+                        text-decoration: line-through;
+                        color: $gray-600;
+                        font-size: 20px;
+                        }
+                    }
+                }
+            }
+        }
+        .program-details {
+            padding-top: 50px;
+            padding-bottom: 80px;
+
+            h1 {
+                margin-bottom: 60px;
+                margin-top: 60px;
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+                .program-steps {
+                    .step {
+                        display: flex;
+                    }
+                }
+            }
+        }
+    }

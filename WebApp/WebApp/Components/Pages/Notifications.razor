@@ -1,0 +1,89 @@
+﻿@page "/account/notifications"
+@attribute [Authorize]
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@using WebApp.Components.Layout
+@using WebApp.Data
+
+@inject UserManager<ApplicationUser> UserManager
+
+<PageTitle>Notifications</PageTitle>
+
+
+<div class="container">
+    <section id="account">
+        @* hade varit bättre att ha som separat komponent men blev strul med usermanager på details-sidan*@
+        <aside>
+            <div class="profile-info">
+                <div class="profile-image">
+                    <img src="/images/uploads/profiles/@(profileimage ?? "avatar.jpg")" alt="profile image" />
+
+                    <form id="profileImageForm" enctype="multipart/form-data" method="post">
+                        <InputFile id="fileUploader" type="file" name="file" hidden />
+                        <label for="fileUploader" class="btn-gray btn-circle-sm"><i class="fa-regular fa-refresh"></i></label>
+                    </form>
+                </div>
+                <div class="account-info">
+                    <h5>@(firstname ?? "First Name") @(lastname ?? "Last Name")</h5>
+                    <p>@(email ?? "email@example.com")</p>
+                </div>
+            </div>
+            <ManageNavMenu />
+        </aside>
+        <div class="notifications">
+            <h3>Notifications</h3>
+            <div class="preferred-email">
+                <p>Preferred email for notifications</p>
+                <InputText @bind-Value="email" placeholder="example@gmail.com" />
+            </div>
+            <div class="btn-switch">
+                <label class="switch" for="switch-mode-1">
+                    <input type="checkbox" id="switch-mode-1" @* @bind="isSubscribed"  *@/>
+                    <span class="slider round" id="slider"></span>
+                </label>
+                <div class="switch-text">
+                    <label>Subscribe to Newsletter</label>
+                    <p>Nec, posuere non felis duis massa vitae aliquet interdum scelerisque. Neque ullamcorper.</p>
+                </div>
+            </div>
+            <div class="btn-switch">
+                <label class="switch-isDarkMode" for="switch-mode-2">
+                    <input class="input2" type="checkbox" id="switch-mode-2"/>
+                    <span class="slider2 round2" id="slider"></span>
+                </label>
+                <div class="switch-text">
+                    <label>Use Dark Mode Theme in Application</label>
+                    <p>Tortor massa porttitor enim tristique neque fermentum sed.</p>
+                </div>
+            </div>
+            <div class="form-buttons">
+                <a class="btn-gray" href="/Account/Details">Cancel</a>
+                <button class="btn-theme" @* @onclick="ToggleSettings" *@>Save changes</button>
+            </div>
+
+        </div>
+
+    </section>
+</div>
+
+@code {
+    private ApplicationUser user = default!;
+    private string? email;
+    private string? firstname;
+    private string? lastname;
+    private object? profileimage;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserManager.GetUserAsync(HttpContext.User) ?? new ApplicationUser();
+        email = await UserManager.GetEmailAsync(user);
+        firstname = user.FirstName;
+        lastname = user.LastName;
+        profileimage = user.ProfileImage;
+    }
+
+}

@@ -679,6 +679,7 @@ header .container .btn-mobile {
 }
 .features .container .tool-features .box:hover {
   transition: all 0.15s ease-in-out;
+  text-decoration: none;
   cursor: pointer;
   background: #FFFFFF;
   box-shadow: 0px 4px 9px -1px rgba(19, 16, 34, 0.03), 0px 4.4px 20px -1px rgba(19, 16, 34, 0.05);
@@ -810,117 +811,126 @@ header .container .btn-mobile {
   text-align: center;
 }
 
-#account-details {
+#account {
   display: grid;
   grid-template-columns: 2fr 5fr;
   gap: 150px;
   margin-bottom: 70px;
 }
-#account-details aside {
+#account aside {
   border-right: 1px solid #E2E5F1;
   padding-right: 20px;
 }
-#account-details aside .profile-info {
+#account aside .profile-info {
   margin: 20px;
   text-align: center;
 }
-#account-details aside .profile-info h5 {
+#account aside .profile-info h5 {
   margin-top: 15px;
   margin-bottom: 0;
 }
-#account-details aside .profile-info h5 p {
+#account aside .profile-info h5 p {
   line-height: 160%;
   font-weight: 400;
   color: #565973;
   font-family: "Manrope", sans-serif;
   font-size: 16px !important;
 }
-#account-details nav {
+#account aside .profile-info .profile-image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#account aside .profile-info .profile-image #profileImageForm {
+  padding: 10px 100px;
+}
+#account nav {
   margin-top: 50px;
   text-align: left;
 }
-#account-details nav a {
+#account nav a {
   margin: 10px 0;
   text-align: left;
 }
-#account-details nav .btn-theme-s {
+#account nav .btn-theme-s {
   text-align: left;
   justify-content: flex-start;
 }
-#account-details .details {
+#account .details {
   margin-top: 50px;
   width: 100%;
 }
-#account-details .details .basic-info form {
+#account .details .basic-info form {
   padding: 1rem;
 }
-#account-details .details .basic-info form h5 {
+#account .details .basic-info form h5 {
   color: #6366F1;
 }
-#account-details .details .basic-info form .content {
+#account .details .basic-info form .content {
   display: grid;
   gap: 1rem 2rem;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "firstname lastname" "email phone" "bio bio" "buttons buttons";
 }
-#account-details .details .basic-info form .content #form-firstname {
+#account .details .basic-info form .content #form-firstname {
   grid-area: firstname;
 }
-#account-details .details .basic-info form .content #form-lastname {
+#account .details .basic-info form .content #form-lastname {
   grid-area: lastname;
 }
-#account-details .details .basic-info form .content #form-email {
+#account .details .basic-info form .content #form-email {
   grid-area: email;
 }
-#account-details .details .basic-info form .content #form-phone {
+#account .details .basic-info form .content #form-phone {
   grid-area: phone;
 }
-#account-details .details .basic-info form .content #form-bio {
+#account .details .basic-info form .content #form-bio {
   grid-area: bio;
 }
-#account-details .details .basic-info form .content #form-bio span {
+#account .details .basic-info form .content #form-bio span {
   color: #B4B7C9;
   font-weight: 400;
 }
-#account-details .details .basic-info form .content .form-buttons {
+#account .details .basic-info form .content .form-buttons {
   grid-area: buttons;
   margin: 20px 0;
   display: flex;
   flex-direction: row;
   gap: 20px;
 }
-#account-details .details .address-info {
+#account .details .address-info {
   margin-top: 30px;
 }
-#account-details .details .address-info form {
+#account .details .address-info form {
   padding: 1rem;
 }
-#account-details .details .address-info form h5 {
+#account .details .address-info form h5 {
   color: #6366F1;
 }
-#account-details .details .address-info form .content {
+#account .details .address-info form .content {
   display: grid;
   gap: 1rem 2rem;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "addressline_1 addressline_1" "addressline_2 addressline_2" "postalcode city" "buttons buttons";
 }
-#account-details .details .address-info form .content #form-addressline-1 {
+#account .details .address-info form .content #form-addressline-1 {
   grid-area: addressline_1;
 }
-#account-details .details .address-info form .content #form-addressline-2 {
+#account .details .address-info form .content #form-addressline-2 {
   grid-area: addressline_2;
 }
-#account-details .details .address-info form .content #form-addressline-2 span {
+#account .details .address-info form .content #form-addressline-2 span {
   color: #B4B7C9;
   font-weight: 400;
 }
-#account-details .details .address-info form .content #form-postalcode {
+#account .details .address-info form .content #form-postalcode {
   grid-area: postalcode;
 }
-#account-details .details .address-info form .content #form-city {
+#account .details .address-info form .content #form-city {
   grid-area: city;
 }
-#account-details .details .address-info form .content .form-buttons {
+#account .details .address-info form .content .form-buttons {
   grid-area: buttons;
   margin: 20px 0;
   display: flex;
@@ -1124,6 +1134,127 @@ header .container .btn-mobile {
   width: 75%;
   display: flex;
   justify-content: space-between;
+}
+
+#single-course .course-showcase {
+  background-color: #263454;
+  position: relative;
+  margin-bottom: 60px;
+  z-index: 1;
+}
+#single-course .course-showcase .container .course-tags {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#single-course .course-showcase .container .course-tags .bestseller {
+  background: #22C55E;
+  color: white;
+  padding: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+#single-course .course-showcase .container .course-tags .digital {
+  background: #EFF2FC;
+  color: #0B0F19;
+  padding: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  left: 10px;
+  top: 10px;
+}
+#single-course .course-showcase .container h1 {
+  color: #FFFFFF;
+  margin-bottom: 40px;
+}
+#single-course .course-showcase .container h3 {
+  color: #FFFFFF;
+}
+#single-course .course-showcase .container p {
+  color: #9397AD;
+}
+#single-course .course-showcase .container .course-statistics {
+  display: flex;
+}
+#single-course .course-showcase .container .course-statistics p {
+  padding-left: 20px;
+  padding-right: 20px;
+  border-left: 1px solid;
+}
+#single-course .course-showcase .container .course-statistics i {
+  padding-right: 10px;
+}
+#single-course .course-showcase .container .course-statistics .star-rating p {
+  border-left: none;
+}
+#single-course .course-showcase .container .author {
+  display: flex;
+}
+#single-course .course-showcase .container .author .image {
+  background-color: aquamarine;
+  width: 50px;
+  height: 50px;
+}
+#single-course .course-description .container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 50px;
+}
+#single-course .course-description .container .info-texts {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+#single-course .course-description .container .info-texts .what-learn .checklist i {
+  color: #6366F1;
+  font-size: 20px;
+  margin-right: 10px;
+}
+#single-course .course-description .container .include-join {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.0588235294), 0 4px 5px rgba(0, 0, 0, 0.0470588235);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  border: 1px solid var(--color-gray-300);
+  width: 430px;
+  padding: 50px 50px 35px 50px;
+  margin-top: 50px;
+  color: var(--color-gray-700);
+}
+#single-course .course-description .container .include-join .pricing {
+  display: flex;
+  gap: 15px;
+  padding-top: 30px;
+  margin-bottom: 5px;
+}
+#single-course .course-description .container .include-join .pricing .discount-price {
+  font-size: 32px;
+  color: var(--color-gray-900);
+  font-weight: 800;
+}
+#single-course .course-description .container .include-join .pricing .original-price {
+  text-decoration: line-through;
+  color: #9397AD;
+  font-size: 20px;
+}
+#single-course .program-details {
+  padding-top: 50px;
+  padding-bottom: 80px;
+}
+#single-course .program-details h1 {
+  margin-bottom: 60px;
+  margin-top: 60px;
+}
+#single-course .program-details .container {
+  display: flex;
+  flex-direction: column;
+}
+#single-course .program-details .container .program-steps .step {
+  display: flex;
 }
 
 footer {

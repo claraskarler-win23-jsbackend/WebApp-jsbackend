@@ -1,4 +1,4 @@
-﻿@page "/Account/Details"
+﻿@page "/account/details"
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
 @using WebApp.Data
@@ -8,9 +8,8 @@
 
 <PageTitle>Profile</PageTitle>
 
-<h3>Profile</h3>
 
-<section id="account-details">
+<section id="account">
         <aside>
         <div class="profile-info">
             <div class="profile-image">
@@ -29,6 +28,7 @@
         <ManageNavMenu />
         </aside>
         <div class="details">
+        <h3>Profile</h3>
             <section class="basic-info">
             <EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
                 <DataAnnotationsValidator />
