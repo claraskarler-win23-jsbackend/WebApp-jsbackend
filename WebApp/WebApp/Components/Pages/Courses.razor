@@ -92,6 +92,7 @@
                     title
                     isBestseller
                     likesInPercent
+                    likes
                     hours
                     imageUri
                     authors {
@@ -121,6 +122,7 @@
                                 Title = course.GetProperty("title").GetString(),
                                 IsBestseller = course.GetProperty("isBestseller").GetBoolean(),
                                 LikesInPercent = course.GetProperty("likesInPercent").GetString(),
+                                NumberOfLikes = course.GetProperty("likes").GetString(),
                                 Hours = course.GetProperty("hours").GetString(),
                                 Image = course.GetProperty("imageUri").GetString(),
                                 Author = course.GetProperty("authors").EnumerateArray().First().GetProperty("name").GetString(),

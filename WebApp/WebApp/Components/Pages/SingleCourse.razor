@@ -1,31 +1,47 @@
-﻿@page "/courses/courseid"
+﻿@page "/courses/{courseId}"
 @* @attribute [Authorize] *@
 
-<PageTitle>Course name</PageTitle>
+<PageTitle>Course Details</PageTitle>
 
-
+@if (course == null)
+{
+    <p>Loading...</p>
+}
+else
+{
     <section id="single-course">
         <div class="course-showcase">
+            <img src="/images/courses/@course.ImageHeaderUri" alt="@course.Title" />
             <div class="container">
                 <div class="course-tags">
-                    <div class="bestseller">Best Seller</div>
-                    <div class="digital">Digital</div>
+                    @if (course.IsBestseller)
+                    {
+                        <div class="bestseller">Best Seller</div>
+                    }
+                    @if (course.IsDigital)
+                    {
+                        <div class="digital">Digital</div>
+                    }
                 </div>
-                <h1>Course title</h1>
-                <h3>Course-description</h3>
+                <h1>@course.Title</h1>
+                <h3>@course.Ingress</h3>
                 <div class="course-statistics">
                     <div class="star-rating">
-                        <p>(Reviews)</p>
+                        <p>@course.StarRating stars</p>
+                        <p>(@course.Reviews)</p>
                     </div>
-                    <p><i class="fa-regular fa-thumbs-up"></i>Likes</p>
-                    <p><i class="fa-regular fa-clock"></i>Hours</p>
+                    <p><i class="fa-regular fa-thumbs-up"></i> @course.Likes</p>
+                    <p><i class="fa-regular fa-clock"></i> @course.Hours</p>
                 </div>
 
                 <div class="author">
-                    <div class="image"></div>
+                    @foreach (var author in course.Authors)
+                    {
+                        <img src="@author.AuthorImage" alt="@author.Name" />
+                    }
                     <div class="created-by">
                         <p>Created by</p>
-                        <p>Creator name</p>
+                        <p>@string.Join(", ", course.Authors.Select(a => a.Name))</p>
                     </div>
                 </div>
             </div>
@@ -34,16 +50,14 @@
             <div class="container">
                 <div class="info-texts">
                     <h1>Course Description</h1>
-                    <p>infotext</p>
+                    <p>@course.Content.Description</p>
                     <div class="what-learn">
                         <h2>What you'll learn</h2>
                         <div class="checklist">
-                            <p><i class="fa-regular fa-circle-check"></i> check 1</p>
-                            <p><i class="fa-regular fa-circle-check"></i> check 2</p>
-                            <p><i class="fa-regular fa-circle-check"></i> check 3</p>
-                            <p><i class="fa-regular fa-circle-check"></i> check 4</p>
-                            <p><i class="fa-regular fa-circle-check"></i> check 5</p>
-                        
+                            @foreach (var item in course.Content.LearnPoints)
+                            {
+                                <p><i class="fa-regular fa-circle-check"></i> @item</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -51,16 +65,18 @@
                     <div class="include">
                         <h3>This course includes:</h3>
                         <div class="include-list">
-                            <p><i class="fa-light fa-clapperboard-play"></i> video</p>
-                            <p><i class="fa-regular fa-trophy"></i> article</p>
-                            <p><i class="fa-regular fa-arrow-down-to-line"></i> download</p>
-                            <p><i class="fa-regular fa-infinity"></i> access</p>
-                            <p><i class="fa-regular fa-trophy"></i> certificate</p>
+                            @foreach (var include in course.Content.Includes)
+                            {
+                                <p><i class="fa-light fa-clapperboard-play"></i> @include</p>
+                            }
                         </div>
                     </div>
                     <div class="pricing">
-                        <div class="discount-price">DP</div>
-                        <div class="original-price">OP</div>
+                        @if (course.Prices.Discount > 0)
+                        {
+                            <div class="discount-price">@course.Prices.Discount @course.Prices.Currency</div>
+                        }
+                        <div class="original-price">@course.Prices.Price @course.Prices.Currency</div>
                     </div>
                     <button class="btn-theme">Join Course</button>
                 </div>
@@ -69,22 +85,132 @@
                 <div class="container">
                     <h1>Program details</h1>
                     <div class="program-steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-description">
-                                <h3>Step title</h3>
-                                <p>Step description</p>
+                        @foreach (var step in course.Content.ProgramDetails)
+                        {
+                            <div class="step">
+                                <div class="step-number">@step.Id</div>
+                                <div class="step-description">
+                                    <h3>@step.Title</h3>
+                                    <p>@step.Description</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-description">
-                                <h3>Step title</h3>
-                                <p>Step description</p>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </section>
+}
+
+@code {
+    [Parameter]
+    public string CourseId { get; set; }
+
+    private Course? course;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var query = new GraphQLQuery
+                {
+                    Query = $@"
+                {{
+                    getCourseById(id: ""{CourseId}"") {{
+                        id
+                        imageHeaderUri
+                        isBestseller
+                        isDigital
+                        categories
+                        title
+                        ingress
+                        starRating
+                        reviews
+                        likesInPercent
+                        likes
+                        hours
+                        authors {{
+                            name
+                            authorImage
+                        }}
+                        prices {{
+                            currency
+                            price
+                            discount
+                        }}
+                        content {{
+                            description
+                            includes
+                            learnPoints
+                            programDetails {{
+                                id
+                                title
+                                description
+                            }}
+                        }}
+                    }}
+                }}"
+                };
+
+            var response = await Http.PostAsJsonAsync("http://localhost:7091/api/graphql", query);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<DynamicGraphQLResponse>();
+                if (result != null)
+                {
+                    var courseData = result.Data.GetProperty("getCourseById");
+                    course = new Course
+                        {
+                            Id = courseData.GetProperty("id").GetString(),
+                            ImageHeaderUri = courseData.GetProperty("imageHeaderUri").GetString(),
+                            IsBestseller = courseData.GetProperty("isBestseller").GetBoolean(),
+                            IsDigital = courseData.GetProperty("isDigital").GetBoolean(),
+                            Categories = courseData.GetProperty("categories").EnumerateArray().Select(c => c.GetString()).ToArray(),
+                            Title = courseData.GetProperty("title").GetString(),
+                            Ingress = courseData.GetProperty("ingress").GetString(),
+                            StarRating = courseData.GetProperty("starRating").GetDecimal(),
+                            Reviews = courseData.GetProperty("reviews").GetString(),
+                            LikesInPercent = courseData.GetProperty("likesInPercent").GetString(),
+                            Likes = courseData.GetProperty("likes").GetString(),
+                            Hours = courseData.GetProperty("hours").GetString(),
+                            Authors = courseData.GetProperty("authors").EnumerateArray().Select(author => 
+                                new Author { 
+                                    Name = author.GetProperty("name").GetString(),
+                                    AuthorImage = author.GetProperty("authorImage").GetString()
+                                }).ToList(),
+                            Prices = new Prices
+                            {
+                                Currency = courseData.GetProperty("prices").GetProperty("currency").GetString(),
+                                Price = courseData.GetProperty("prices").GetProperty("price").GetDecimal(),
+                                Discount = courseData.GetProperty("prices").GetProperty("discount").GetDecimal()
+                            },
+                            Content = new Content
+                            {
+                                Description = courseData.GetProperty("content").GetProperty("description").GetString(),
+                                Includes = courseData.GetProperty("content").GetProperty("includes").EnumerateArray().Select(i => i.GetString()).ToArray(),
+                                LearnPoints = courseData.GetProperty("content").GetProperty("learnPoints").EnumerateArray().Select(i => i.GetString()).ToArray(),
+                                ProgramDetails = courseData.GetProperty("content").GetProperty("programDetails").EnumerateArray()
+                                    .Select(detail => new ProgramDetailItem
+                                    {
+                                        Id = detail.GetProperty("id").GetInt32(),
+                                        Title = detail.GetProperty("title").GetString(),
+                                        Description = detail.GetProperty("description").GetString()
+                                    }).ToList()
+                            }
+                        };
+                }
+            }
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.Error.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                Console.Error.WriteLine($"Response Content: {errorContent}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Exception: {ex.Message}");
+        }
+    }
+}

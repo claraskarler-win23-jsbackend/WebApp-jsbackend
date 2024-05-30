@@ -3,39 +3,45 @@
 public class Course
 {
     public string Id { get; set; } = null!;
-    public string Title { get; set; } = null!;
-    public string? Image { get; set; }
-    public string Author { get; set; } = null!;
+    public string? ImageUri { get; set; }
+    public string? ImageHeaderUri { get; set; }
     public bool IsBestseller { get; set; }
     public bool IsDigital { get; set; }
-    public int Hours { get; set; }
-    public string? LikesInProcent { get; set; }
-    public string? NumberOfLikes { get; set; }
-    public int? StarRating { get; set; }
+    public string[]? Categories { get; set; }
+    public string? Title { get; set; }
+    public string? Ingress { get; set; }
+    public decimal StarRating { get; set; }
     public string? Reviews { get; set; }
-    public string OriginalPrice { get; set; } = null!;
-    public string? DiscountPrice { get; set; }
-    public string? Category { get; set; } = null!;
-    public Prices? Prices { get; set; }
-    public Content? Content { get; set; }
+    public string? LikesInPercent { get; set; }
+    public string? Likes { get; set; }
+    public string? Hours { get; set; }
+    public virtual List<Author>? Authors { get; set; }
+    public virtual Prices? Prices { get; set; }
+    public virtual Content? Content { get; set; }
+}
 
+public class Author
+{
+    public string? Name { get; set; }
+    public string? AuthorImage { get; set; }
 }
 
 public class Prices
 {
-    public string? Curreny { get; set; }
-    public decimal? Price { get; set; }
-    public decimal? Discount { get; set; }
+    public string? Currency { get; set; }
+    public decimal Price { get; set; }
+    public decimal Discount { get; set; }
 }
 
 public class Content
 {
     public string? Description { get; set; }
     public string[]? Includes { get; set; }
-    public ProgramDetail[]? ProgramDetails { get; set; }
+    public string[]? LearnPoints { get; set; }
+    public virtual List<ProgramDetailItem>? ProgramDetails { get; set; }
 }
 
-public class ProgramDetail
+public class ProgramDetailItem
 {
     public int Id { get; set; }
     public string? Title { get; set; }
