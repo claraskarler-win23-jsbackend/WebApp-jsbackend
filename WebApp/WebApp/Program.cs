@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApp;
-using WebApp.Client.Pages;
 using WebApp.Components;
 using WebApp.Data;
 

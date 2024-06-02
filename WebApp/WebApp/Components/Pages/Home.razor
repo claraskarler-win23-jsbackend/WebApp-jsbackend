@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.ComponentModel.DataAnnotations
 
 <PageTitle>Home</PageTitle>
 
@@ -103,44 +104,44 @@
             <h2>Don't want to miss anyhting?</h2>
             <img src="/images/icons/arrows.svg" alt="Swirling arrow" />
         </div>
-        <form method="post" asp-action="Subscribe" asp-controller="Default">
+        <EditForm method="post" FormName="SubscribeForm" Model="SubscribeForm" OnValidSubmit="OnValidSubmit" novalidate>
             <div class="alternative">
                 <h4>Sign up for Newsletters</h4>
                 <div class="options">
                     <div class="checkbox-group">
                         <div class="input-group">
-                            <input asp-for="DailyNewsletter" />
-                            <label asp-for="DailyNewsletter"></label>
+                            <InputCheckbox @bind-Value="SubscribeForm.DailyNewsletter" />
+                            <label>DailyNewsletter</label>
                         </div>
                     </div>
                     <div class="checkbox-group">
                         <div class="input-group">
-                            <input asp-for="AdvertisingUpdates" />
-                            <label asp-for="AdvertisingUpdates"></label>
+                            <InputCheckbox @bind-Value="SubscribeForm.AdvertisingUpdates" />
+                            <label>AdvertisingUpdates</label>
                         </div>
                     </div>
                     <div class="checkbox-group">
                         <div class="input-group">
-                            <input asp-for="WeekInReview" />
-                            <label asp-for="WeekInReview"></label>
+                            <InputCheckbox @bind-Value="SubscribeForm.WeekInReview" />
+                            <label>WeekInReview</label>
                         </div>
                     </div>
                     <div class="checkbox-group">
                         <div class="input-group">
-                            <input asp-for="EventUpdates" />
-                            <label asp-for="EventUpdates"></label>
+                            <InputCheckbox @bind-Value="SubscribeForm.EventUpdates" />
+                            <label>EventUpdates</label>
                         </div>
                     </div>
                     <div class="checkbox-group">
                         <div class="input-group">
-                            <input asp-for="StartupsWeekly" />
-                            <label asp-for="StartupsWeekly"></label>
+                            <InputCheckbox @bind-Value="SubscribeForm.StartupsWeekly" />
+                            <label>StartupsWeekly</label>
                         </div>
                     </div>
                     <div class="checkbox-group">
                         <div class="input-group">
-                            <input asp-for="Podcasts" />
-                            <label asp-for="Podcasts"></label>
+                            <InputCheckbox @bind-Value="SubscribeForm.Podcasts" />
+                            <label>Podcasts</label>
                         </div>
                     </div>
                 </div>
@@ -148,7 +149,7 @@
             <div class="form-email">
                 <div class="input-group">
                     <i class="fa-regular fa-envelope"></i>
-                    <input asp-for="Email" />
+                    <InputText @bind-Value="SubscribeForm.Email" />
                 </div>
                 <button type="submit" class="btn btn-theme">Subscribe *</button>
             </div>
@@ -160,7 +161,31 @@
             {
                 <span class="status-message">* Yes, I agree to the terms and conditions.</span>
             } *@
-        </form>
+        </EditForm>
     </div>
 
 </section>
+
+@code {
+    [SupplyParameterFromForm]
+    public SubscribeFormModel SubscribeForm { get; set; } = new SubscribeFormModel();
+
+    private async Task OnValidSubmit()
+    {
+        
+    }
+
+    public class SubscribeFormModel {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email address", Prompt ="Your Email")]
+        public string Email { get; set; } = null!;
+        public bool DailyNewsletter { get; set; }
+        public bool AdvertisingUpdates { get; set; }
+        public bool WeekInReview { get; set; }
+        public bool EventUpdates { get; set; }
+        public bool StartupsWeekly { get; set; }
+        public bool Podcasts { get; set; }
+
+    }
+}

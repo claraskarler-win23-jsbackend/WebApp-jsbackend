@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+﻿@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
 html, body {
   line-height: 160%;
   font-weight: 400;
@@ -394,27 +394,25 @@ form .alert {
 }
 form .input-group {
   margin-bottom: 1rem;
+  padding-top: 10px;
 }
 form .input-group label {
+  position: absolute;
   margin-bottom: 0.188rem;
   font-weight: 700;
+  z-index: 1;
+  bottom: 60px;
 }
 form .input-group input {
   padding: 1rem;
   border-radius: 0.5rem !important;
   border: 0.1rem solid #D4D7E5;
 }
-form .input-group input::-moz-placeholder {
-  opacity: 0.4;
-}
 form .input-group input::placeholder {
   opacity: 0.4;
 }
 form .input-group input.input-validation-error {
   border: 0.1rem solid #EF4444 !important;
-  color: #EF4444;
-}
-form .input-group input.input-validation-error::-moz-placeholder {
   color: #EF4444;
 }
 form .input-group input.input-validation-error::placeholder {
